@@ -1,48 +1,81 @@
 import { useState } from "react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 
 const faqs = [
-  { question: "Is laser hair reduction safe?", answer: "Yes, we use the advanced Quantum Pro Duo which has built-in contact cooling and adjustable settings for different skin types, making it both safe and virtually pain-free." },
-  { question: "How many PRP sessions are required?", answer: "Typically, a series of 3 to 6 sessions spaced 4 weeks apart is recommended for optimal hair regrowth or skin rejuvenation. A personalized plan will be created during your consultation." },
-  { question: "Is eyebrow microblading painful?", answer: "No, the procedure is very comfortable. We use a high-quality topical numbing cream before and during the treatment to ensure a pain-free experience." },
-  { question: "What is recovery time after treatment?", answer: "Most of our treatments have little to no downtime. Some advanced procedures may involve mild redness for 24-48 hours. Post-care instructions are provided for every treatment." },
-  { question: "Are treatments customized per patient?", answer: "Absolutely. We do not believe in a one-size-fits-all approach. Every patient undergoes a thorough consultation to tailor treatments specific to their concerns and goals." },
-  { question: "Do you provide consultation?", answer: "Yes, Dr. Jayshree Londhe provides in-depth personalized consultations to understand your history, concerns, and to recommend the most effective treatment protocol." },
-  { question: "Is the clinic hygienic and safe?", answer: "Hygiene is our top priority. We follow strict international medical protocols, use disposable materials wherever possible, and rigorously sterilize all equipment." },
-  { question: "Are Ayurvedic therapies available?", answer: "Yes, we proudly offer traditional therapies like Panchakarma, Shirodhara, and Ayurvedic facials, bridging ancient wisdom with modern wellness." },
+  { q: "Is laser hair reduction safe?", a: "Yes, completely safe. We use the Quantum Pro Duo medical-grade laser with contact cooling, making it safe for all skin types. Our doctor performs a patch test before every session." },
+  { q: "How many PRP sessions are required?", a: "Typically 4–6 sessions for hair regrowth and 3–4 for skin PRP, spaced 3–4 weeks apart. Dr. Jayshree will assess your individual needs during consultation." },
+  { q: "Is eyebrow microblading painful?", a: "A topical numbing cream is applied 30 minutes before the procedure, making it very comfortable. Most clients report minimal to no discomfort." },
+  { q: "What is the recovery time after treatments?", a: "Most treatments have zero to minimal downtime. Laser and PRP may cause mild redness for 24–48 hours. Microblading requires 7–10 days of aftercare. We provide full aftercare instructions." },
+  { q: "Are treatments customized per patient?", a: "Absolutely. Every patient receives a personalized consultation with Dr. Jayshree before any treatment. Your skin type, concerns, and goals all shape your unique treatment plan." },
+  { q: "Do you provide free consultation?", a: "Yes! We offer a complimentary initial consultation with Dr. Jayshree Londhe. Book your appointment via call, WhatsApp, or our online form." },
+  { q: "Is the clinic hygienic and certified?", a: "CosmoVeda follows strict hospital-grade sterilization protocols. All equipment is sanitized before each use, and single-use disposables are used wherever required." },
+  { q: "Are Ayurvedic therapies available?", a: "Yes! We offer traditional Panchakarma, Shirodhara, Nadi Swedana, and Ayurvedic skin therapies alongside our modern aesthetic treatments." },
 ];
 
 export default function FAQ() {
-  return (
-    <section className="py-24 bg-background">
-      <div className="container mx-auto px-4 md:px-6 max-w-4xl">
-        <div className="text-center mb-12">
-          <span className="font-label tracking-widest text-sm uppercase text-accent font-semibold mb-4 block">Clarifications</span>
-          <h2 className="font-serif text-4xl md:text-5xl text-foreground mb-6">
-            Frequently Asked <span className="italic text-primary">Questions</span>
-          </h2>
-        </div>
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
+  return (
+    <section id="faq" className="w-full overflow-hidden bg-white py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-100px" }}
+          className="text-center mb-12"
         >
-          <Accordion type="single" collapsible className="w-full">
-            {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="border-b border-border py-2">
-                <AccordionTrigger className="font-serif text-lg text-foreground hover:text-primary transition-colors text-left">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground font-light text-base leading-relaxed pb-4">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+          <h2 className="text-4xl md:text-5xl font-serif font-bold text-[#3A2D2D]">
+            Frequently Asked Questions
+          </h2>
         </motion.div>
+
+        <div className="max-w-3xl mx-auto">
+          {faqs.map((faq, i) => {
+            const isOpen = openIndex === i;
+            return (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                className="border-b border-[#F8C8C0] last:border-0"
+              >
+                <div 
+                  className="w-full flex justify-between items-center py-4 text-left cursor-pointer"
+                  onClick={() => setOpenIndex(isOpen ? null : i)}
+                  data-testid={`faq-question-${i}`}
+                >
+                  <h3 className="font-semibold text-[#3A2D2D] text-base pr-4">
+                    {faq.q}
+                  </h3>
+                  <motion.div
+                    animate={{ rotate: isOpen ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ChevronDown className="text-[#3A2D2D]" size={20} />
+                  </motion.div>
+                </div>
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <p className="text-gray-600 text-sm leading-relaxed pb-4">
+                        {faq.a}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

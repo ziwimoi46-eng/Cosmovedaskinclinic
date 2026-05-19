@@ -1,65 +1,89 @@
 import { motion } from "framer-motion";
-import doctorImg from "@assets/Screenshot_20260519-104241_ChatGPT_1779168460866.jpg";
-import roomImg from "@assets/IMG-20260225-WA0010_1779168460705.jpg";
+import { CheckCircle } from "lucide-react";
+import drImg from "@assets/Screenshot_20260519-104241_ChatGPT_1779168460866.jpg";
 
 export default function AboutDoctor() {
   return (
-    <section id="doctor" className="py-24 relative overflow-hidden">
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0 z-0">
-        <img src={roomImg} alt="Consultation Room" className="w-full h-full object-cover opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/80" />
-      </div>
-
-      <div className="container relative z-10 mx-auto px-4 md:px-6">
-        <div className="flex flex-col lg:flex-row-reverse gap-16 items-center">
+    <section id="doctor" className="w-full overflow-hidden bg-gradient-to-b from-[#FFF8F5] to-[#FAD7D0] py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="w-full lg:w-1/2 relative flex justify-center"
+            className="order-2 lg:order-1"
           >
-            <div className="relative">
-              <div className="absolute -inset-2 bg-gradient-to-tr from-primary to-accent rounded-[2rem] blur-xl opacity-50 animate-pulse" />
-              <img 
-                src={doctorImg} 
-                alt="Dr. Jayshree Londhe" 
-                className="relative z-10 w-full max-w-[400px] aspect-[3/4] object-cover rounded-[2rem] shadow-2xl border-4 border-white/50"
-              />
+            <div className="relative max-w-sm mx-auto">
+              <div className="rounded-3xl overflow-hidden shadow-2xl ring-4 ring-[#D4A373]/40 ring-offset-4 ring-offset-transparent aspect-[3/4]">
+                <img
+                  src={drImg}
+                  alt="Dr. Jayshree Londhe"
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
+              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-[#D4A373] text-white px-6 py-2 rounded-full text-sm font-medium shadow-lg whitespace-nowrap">
+                International PMU Expert – Canada
+              </div>
             </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="w-full lg:w-1/2"
+            className="order-1 lg:order-2 flex flex-col items-start"
           >
-            <span className="font-label tracking-widest text-sm uppercase text-accent font-semibold mb-4 block">Meet Your Expert</span>
-            <h2 className="font-serif text-4xl md:text-5xl text-foreground mb-2">Dr. Jayshree Londhe</h2>
-            <p className="text-xl text-primary font-medium mb-6">BAMS, Clinical Cosmetologist, International PMU Expert</p>
-            
-            <p className="text-muted-foreground mb-6 font-light leading-relaxed">
-              Dr. Jayshree brings international expertise right to Aurangabad. As a certified Clinical Cosmetologist and International PMU Expert from Canada, she combines her deep medical knowledge with a refined aesthetic eye.
-            </p>
-            <p className="text-muted-foreground mb-8 font-light leading-relaxed">
-              Her approach is deeply personal—she listens, evaluates, and crafts bespoke treatment plans. Whether it's advanced laser therapy, precise microblading, or traditional Ayurvedic healing, Dr. Jayshree ensures every procedure is safe, effective, and luxurious.
-            </p>
+            <span className="font-label uppercase text-sm tracking-widest text-[#D4A373] mb-4">
+              Meet Your Doctor
+            </span>
+            <h2 className="font-display text-4xl font-semibold text-[#3A2D2D] mb-6">
+              Dr. Jayshree Londhe
+            </h2>
 
-            <div className="flex flex-wrap gap-3">
-              {[
-                "International PMU Expert",
-                "BAMS",
-                "Clinical Cosmetologist",
-                "Canada Certified"
-              ].map((badge, i) => (
-                <span key={i} className="px-4 py-2 rounded-full bg-secondary/20 text-foreground text-sm font-medium border border-secondary/30">
-                  {badge}
-                </span>
-              ))}
+            <div className="flex flex-wrap gap-2 mb-8">
+              <span className="bg-white/60 border border-[#D4A373] text-[#3A2D2D] px-4 py-1.5 rounded-full text-sm font-medium">
+                BAMS
+              </span>
+              <span className="bg-white/60 border border-[#D4A373] text-[#3A2D2D] px-4 py-1.5 rounded-full text-sm font-medium">
+                Clinical Cosmetologist
+              </span>
+              <span className="bg-white/60 border border-[#D4A373] text-[#3A2D2D] px-4 py-1.5 rounded-full text-sm font-medium">
+                International PMU Expert
+              </span>
             </div>
+
+            <div className="space-y-4 text-gray-700 mb-8 leading-relaxed">
+              <p>
+                Dr. Jayshree Londhe is a visionary in the field of aesthetic medicine, seamlessly integrating her profound knowledge of Ayurveda with advanced clinical cosmetology. With over five years of dedicated clinical experience, she has transformed the lives of countless patients.
+              </p>
+              <p>
+                As an Internationally Certified Permanent Makeup (PMU) Expert from Canada, Dr. Londhe brings world-class precision to eyebrow microblading, lip pigmentation, and scalp micropigmentation. Her meticulous eye for detail ensures natural, enhancing results tailored to each individual's facial architecture.
+              </p>
+              <p>
+                Her philosophy centers on personalized care—understanding that every skin and hair concern requires a bespoke approach. By combining holistic healing with state-of-the-art medical technology, Dr. Londhe delivers comprehensive solutions that enhance both health and beauty.
+              </p>
+            </div>
+
+            <ul className="space-y-3 mb-10 w-full">
+              {[
+                "Internationally Certified PMU Expert (Canada)",
+                "BAMS Graduate",
+                "5+ Years Clinical Experience",
+                "1000+ Successful Procedures",
+                "Personalized Treatment Approach"
+              ].map((achievement, i) => (
+                <li key={i} className="flex items-center gap-3 text-[#3A2D2D] font-medium">
+                  <CheckCircle className="w-5 h-5 text-[#D4A373] flex-shrink-0" />
+                  <span>{achievement}</span>
+                </li>
+              ))}
+            </ul>
+
+            <button className="rounded-full bg-gradient-to-r from-[#F8C8C0] to-[#E8A0BF] px-8 py-3 text-[#3A2D2D] font-semibold hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+              Book with Dr. Jayshree
+            </button>
           </motion.div>
         </div>
       </div>

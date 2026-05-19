@@ -1,83 +1,118 @@
+import { Phone, MapPin, Instagram, Facebook, Youtube, Heart } from "lucide-react";
+// Assuming alias @assets is configured in tsconfig/vite. If not, this might need updating to a relative path.
+// The instructions specifically requested to use this import:
 import logoImg from "@assets/IMG-20260515-WA0009_1779168460656.jpg";
-import { Facebook, Instagram, Twitter, MapPin, Phone, Mail } from "lucide-react";
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    <footer className="bg-[#2A2020] text-white pt-20 pb-10 border-t-4 border-primary">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+    <footer className="w-full overflow-hidden bg-[#3A2D2D] text-white/80 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           
-          <div className="space-y-6">
-            <div className="flex items-center gap-3">
-              <img src={logoImg} alt="CosmoVeda" className="w-12 h-12 rounded-full bg-white object-contain" />
-              <span className="font-serif text-2xl font-semibold text-primary">CosmoVeda</span>
-            </div>
-            <p className="text-white/70 font-light leading-relaxed">
-              Enhance Your Natural Beauty. Aurangabad's premier destination for luxury skin, hair, laser, and aesthetic treatments by International PMU Expert Dr. Jayshree Londhe.
+          {/* Column 1 */}
+          <div>
+            <img 
+              src={logoImg} 
+              alt="CosmoVeda Logo" 
+              className="w-20 h-20 object-cover rounded-xl mb-4"
+              onError={(e) => {
+                // Fallback if the alias doesn't work out of the box in the environment
+                e.currentTarget.style.display = "none";
+              }}
+            />
+            <h2 className="text-white text-xl font-serif font-bold mb-1">
+              CosmoVeda
+            </h2>
+            <p className="text-white/60 text-sm mb-2">
+              Skin and Hair Clinic
+            </p>
+            <p className="italic text-[#F8C8C0] text-sm mb-4">
+              "Enhance Your Natural Beauty"
+            </p>
+            <p className="text-sm leading-relaxed mb-6">
+              A luxury aesthetic clinic in Aurangabad offering advanced skin, hair, laser & PMU treatments.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary hover:text-[#2A2020] transition-colors">
-                <Instagram className="w-5 h-5" />
+              <a href="#" className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#D4A373] transition-colors flex items-center justify-center">
+                <Instagram size={16} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary hover:text-[#2A2020] transition-colors">
-                <Facebook className="w-5 h-5" />
+              <a href="#" className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#D4A373] transition-colors flex items-center justify-center">
+                <Facebook size={16} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary hover:text-[#2A2020] transition-colors">
-                <Twitter className="w-5 h-5" />
+              <a href="#" className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#D4A373] transition-colors flex items-center justify-center">
+                <Youtube size={16} />
               </a>
             </div>
           </div>
 
+          {/* Column 2 */}
           <div>
-            <h4 className="font-serif text-xl mb-6 text-white">Quick Links</h4>
-            <ul className="space-y-3 font-light text-white/70">
-              <li><a href="#home" className="hover:text-primary transition-colors">Home</a></li>
-              <li><a href="#about" className="hover:text-primary transition-colors">About Clinic</a></li>
-              <li><a href="#doctor" className="hover:text-primary transition-colors">Dr. Jayshree Londhe</a></li>
-              <li><a href="#results" className="hover:text-primary transition-colors">Before & After</a></li>
-              <li><a href="#gallery" className="hover:text-primary transition-colors">Gallery</a></li>
+            <h3 className="text-white font-semibold mb-4 uppercase tracking-widest text-sm">
+              Quick Links
+            </h3>
+            <ul className="flex flex-col space-y-2">
+              {['home', 'about', 'doctor', 'services', 'equipment', 'gallery', 'appointment'].map((link) => (
+                <li key={link}>
+                  <button 
+                    onClick={() => scrollTo(link)}
+                    className="text-white/60 hover:text-[#F8C8C0] transition-colors text-sm py-1 block cursor-pointer capitalize"
+                  >
+                    {link}
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
 
+          {/* Column 3 */}
           <div>
-            <h4 className="font-serif text-xl mb-6 text-white">Popular Services</h4>
-            <ul className="space-y-3 font-light text-white/70">
-              <li><a href="#services" className="hover:text-primary transition-colors">Eyebrow Microblading</a></li>
-              <li><a href="#services" className="hover:text-primary transition-colors">Laser Hair Reduction</a></li>
-              <li><a href="#services" className="hover:text-primary transition-colors">PRP Hair Regrowth</a></li>
-              <li><a href="#services" className="hover:text-primary transition-colors">Pigmentation Treatment</a></li>
-              <li><a href="#services" className="hover:text-primary transition-colors">Ayurvedic Panchakarma</a></li>
-            </ul>
+            <h3 className="text-white font-semibold mb-4 uppercase tracking-widest text-sm">
+              Contact Us
+            </h3>
+            <div className="flex flex-col space-y-4">
+              <div className="flex items-start gap-3">
+                <MapPin className="text-[#F8C8C0] mt-1 shrink-0" size={18} />
+                <p className="text-sm text-white/60 leading-relaxed">
+                  Amrutvel, Niranjan Society, Tilak Nagar, Chhatrapati Sambhajinagar (Aurangabad), Maharashtra
+                </p>
+              </div>
+              <div className="flex items-start gap-3">
+                <Phone className="text-[#F8C8C0] shrink-0" size={18} />
+                <div className="flex flex-col text-sm text-white/60">
+                  <a href="tel:+919860618850" className="hover:text-white transition-colors">+91 98606 18850</a>
+                  <a href="tel:+919766093630" className="hover:text-white transition-colors">+91 97660 93630</a>
+                </div>
+              </div>
+              <div className="pt-2">
+                <p className="text-sm font-medium text-white/80">Mon–Sat: 10am – 7pm</p>
+              </div>
+              <a 
+                href="https://wa.me/919860618850" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-block mt-2 text-[#25D366] hover:text-white transition-colors text-sm font-medium"
+              >
+                Chat on WhatsApp
+              </a>
+            </div>
           </div>
-
-          <div>
-            <h4 className="font-serif text-xl mb-6 text-white">Contact Info</h4>
-            <ul className="space-y-4 font-light text-white/70">
-              <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                <span>Amrutvel, Niranjan Society, Tilak Nagar, Aurangabad</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-primary shrink-0" />
-                <span>+91 9860618850 / 9766093630</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-primary shrink-0" />
-                <span>info@cosmovedaclinic.com</span>
-              </li>
-            </ul>
-          </div>
-
         </div>
 
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between text-white/50 text-sm font-light">
-          <p>© {currentYear} CosmoVeda Skin and Hair Clinic. All Rights Reserved.</p>
-          <div className="flex gap-4 mt-4 md:mt-0">
-            <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
-          </div>
+        {/* Bottom Bar */}
+        <div className="border-t border-white/10 mt-12 pt-6 text-center">
+          <p className="text-sm text-white/50 mb-2">
+            © 2025 CosmoVeda Skin and Hair Clinic. All Rights Reserved.
+          </p>
+          <p className="text-xs text-white/40 flex items-center justify-center gap-1">
+            Made with <Heart className="fill-red-500 text-red-500" size={12} /> in Aurangabad
+          </p>
         </div>
       </div>
     </footer>

@@ -1,66 +1,90 @@
-import { motion } from "framer-motion";
-import { Star } from "lucide-react";
+import { motion, useAnimationControls } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const testimonials = [
-  { name: "Priya S.", initials: "PS", color: "bg-[#F8C8C0]", text: "Dr. Jayshree is an artist. My microbladed eyebrows look incredibly natural. The clinic environment is so luxurious and calming. Highly recommend!", service: "Eyebrow Microblading" },
-  { name: "Neha K.", initials: "NK", color: "bg-[#E8A0BF]", text: "I've struggled with pigmentation for years. The personalized treatment plan here finally gave me the clear skin I've always wanted. Truly the best clinic in Aurangabad.", service: "Pigmentation Treatment" },
-  { name: "Riya M.", initials: "RM", color: "bg-[#D4A373]", text: "The laser hair reduction was completely painless. The staff is professional, and the hygiene standards are top-notch.", service: "Laser Hair Reduction" },
-  { name: "Anjali D.", initials: "AD", color: "bg-[#A3D4C4]", text: "I had a wonderful experience with PRP for hair regrowth. I can already see a significant difference in my hair density.", service: "PRP Hair Regrowth" },
-  { name: "Sneha P.", initials: "SP", color: "bg-[#C4A3D4]", text: "The Panchakarma therapy left me feeling rejuvenated and relaxed. It's rare to find a place that offers both modern aesthetics and authentic Ayurveda.", service: "Ayurvedic Wellness" },
-  { name: "Pooja V.", initials: "PV", color: "bg-[#D4A3B4]", text: "My Medi Facial gave me an instant glow before my wedding. They customized every step. Felt like absolute royalty!", service: "Medi Facial" },
+  { name: "Priya Sharma", treatment: "Eyebrow Microblading", text: "Dr. Jayshree is an absolute artist. My eyebrows look so natural — I've never had to fill them in since! The clinic was immaculate and the team very professional.", initials: "PS", color: "bg-rose-200" },
+  { name: "Sunita Patil", treatment: "Pigmentation Treatment", text: "After years of struggling with dark spots, just 3 sessions at CosmoVeda gave me results I never thought possible. My skin is clear and glowing.", initials: "SP", color: "bg-orange-200" },
+  { name: "Meera Kulkarni", treatment: "Hair Regrowth PRP", text: "My hair loss was a constant worry for me. Dr. Jayshree's PRP treatment has genuinely brought back my confidence. Visible results after just 2 sessions!", initials: "MK", color: "bg-amber-200" },
+  { name: "Ananya Desai", treatment: "Medi Facial", text: "The most relaxing and effective facial I've ever had. My skin felt like I'd turned back the clock by 5 years. I come every month now!", initials: "AD", color: "bg-pink-200" },
+  { name: "Rohini Jadhav", treatment: "Laser Hair Reduction", text: "Completely painless with the Quantum Pro Duo. I was skeptical at first but after 4 sessions there's barely any hair left. Worth every penny!", initials: "RJ", color: "bg-rose-100" },
+  { name: "Kavita Bhatia", treatment: "PMU Services", text: "I got lip blush done by Dr. Jayshree. Being an international PMU expert, her technique is flawless. The color is perfect and looks completely natural.", initials: "KB", color: "bg-amber-100" },
 ];
 
 export default function Testimonials() {
-  return (
-    <section className="py-24 bg-gradient-to-br from-[#FFF8F5] to-[#FDE8E4] overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="font-label tracking-widest text-sm uppercase text-accent font-semibold mb-4 block">Client Stories</span>
-          <h2 className="font-serif text-4xl md:text-5xl text-foreground mb-6">
-            Words from our <span className="italic text-primary">Royalty</span>
-          </h2>
-        </div>
+  const [paused, setPaused] = useState(false);
+  const controls = useAnimationControls();
+  const doubled = [...testimonials, ...testimonials];
 
-        {/* CSS-based seamless auto-scroll carousel */}
-        <div className="relative flex overflow-x-hidden group">
-          <div className="py-4 animate-marquee whitespace-nowrap flex gap-6">
-            {[...testimonials, ...testimonials].map((t, i) => (
-              <div 
-                key={i} 
-                className="w-[350px] bg-white/60 backdrop-blur-xl border border-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] inline-block whitespace-normal flex-shrink-0"
-              >
-                <div className="flex gap-1 mb-6">
-                  {[...Array(5)].map((_, j) => (
-                    <Star key={j} className="w-5 h-5 fill-accent text-accent" />
-                  ))}
+  useEffect(() => {
+    controls.start({
+      x: ["0%", "-50%"],
+      transition: {
+        duration: 30,
+        repeat: Infinity,
+        ease: "linear",
+      },
+    });
+  }, [controls]);
+
+  return (
+    <section id="testimonials" className="w-full overflow-hidden bg-[#FFF8F5] py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          className="text-center"
+        >
+          <h2 className="text-4xl md:text-5xl font-serif font-bold text-[#3A2D2D]">
+            What Our Clients Say
+          </h2>
+        </motion.div>
+      </div>
+
+      <div 
+        className="w-full overflow-hidden relative"
+        onMouseEnter={() => { setPaused(true); controls.stop(); }}
+        onMouseLeave={() => { 
+          setPaused(false); 
+          controls.start({
+            x: ["0%", "-50%"],
+            transition: {
+              duration: 30,
+              repeat: Infinity,
+              ease: "linear",
+            },
+          }); 
+        }}
+      >
+        <motion.div 
+          animate={controls}
+          className="flex w-max cursor-grab active:cursor-grabbing"
+        >
+          {doubled.map((testimonial, i) => (
+            <div 
+              key={i} 
+              className="bg-white rounded-2xl p-6 shadow-md border border-[#F8C8C0]/30 w-80 flex-shrink-0 mx-3 flex flex-col"
+            >
+              <div className="flex gap-1 mb-3 text-[#D4A373]">
+                {Array(5).fill(0).map((_, idx) => (
+                  <span key={idx}>★</span>
+                ))}
+              </div>
+              <p className="italic text-gray-600 text-sm leading-relaxed mb-4 flex-grow">
+                "{testimonial.text}"
+              </p>
+              <div className="flex items-center gap-3 mt-auto">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-[#3A2D2D] font-bold text-sm ${testimonial.color}`}>
+                  {testimonial.initials}
                 </div>
-                <p className="text-muted-foreground font-light mb-8 italic">"{t.text}"</p>
-                <div className="flex items-center gap-4 mt-auto">
-                  <div className={`w-12 h-12 rounded-full ${t.color} flex items-center justify-center text-white font-medium text-lg shadow-inner`}>
-                    {t.initials}
-                  </div>
-                  <div>
-                    <h4 className="font-serif text-foreground font-medium">{t.name}</h4>
-                    <span className="text-xs text-primary font-label uppercase tracking-wider">{t.service}</span>
-                  </div>
+                <div>
+                  <h4 className="font-semibold text-[#3A2D2D] text-sm">{testimonial.name}</h4>
+                  <p className="text-xs text-[#D4A373]">{testimonial.treatment}</p>
                 </div>
               </div>
-            ))}
-          </div>
-          {/* Pause on hover */}
-          <style>{`
-            .animate-marquee {
-              animation: marquee 40s linear infinite;
-            }
-            .group:hover .animate-marquee {
-              animation-play-state: paused;
-            }
-            @keyframes marquee {
-              0% { transform: translateX(0%); }
-              100% { transform: translateX(-50%); }
-            }
-          `}</style>
-        </div>
+            </div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

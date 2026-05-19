@@ -1,48 +1,38 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import logoImg from "@assets/IMG-20260515-WA0009_1779168460656.jpg";
 
-export default function LoadingScreen() {
-  const [loading, setLoading] = useState(true);
+interface LoadingScreenProps {
+  onComplete: () => void;
+}
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
-
+export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
   return (
-    <AnimatePresence>
-      {loading && (
+    <motion.div
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-[#FFF8F5]"
+      initial={{ opacity: 1 }}
+      animate={{ opacity: 0 }}
+      transition={{ duration: 0.5, delay: 1.8 }}
+      onAnimationComplete={onComplete}
+      data-testid="loading-screen"
+    >
+      <div className="flex flex-col items-center">
         <motion.div
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background"
+          className="w-32 h-32 rounded-full bg-white flex items-center justify-center shadow-xl overflow-hidden mb-6"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <motion.img
-            src={logoImg}
-            alt="CosmoVeda Logo"
-            className="w-32 h-32 md:w-48 md:h-48 object-contain rounded-full shadow-2xl"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-          />
-          <motion.div 
-            className="mt-8 w-48 h-1 bg-muted rounded-full overflow-hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
-            <motion.div 
-              className="h-full bg-gradient-to-r from-primary to-secondary"
-              initial={{ width: "0%" }}
-              animate={{ width: "100%" }}
-              transition={{ duration: 1.5, ease: "easeInOut" }}
-            />
-          </motion.div>
+          <img src={logoImg} alt="CosmoVeda Logo" className="w-24 h-24 object-contain" />
         </motion.div>
-      )}
-    </AnimatePresence>
+        <motion.h1
+          className="text-3xl font-display font-semibold text-[#3A2D2D]"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          CosmoVeda
+        </motion.h1>
+      </div>
+    </motion.div>
   );
 }

@@ -1,113 +1,121 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
 import logoImg from "@assets/IMG-20260515-WA0009_1779168460656.jpg";
-import { Button } from "@/components/ui/button";
 
 const navLinks = [
-  { name: "Home", href: "#home" },
-  { name: "About", href: "#about" },
-  { name: "Doctor", href: "#doctor" },
-  { name: "Services", href: "#services" },
-  { name: "Equipment", href: "#equipment" },
-  { name: "Results", href: "#results" },
-  { name: "Gallery", href: "#gallery" },
-  { name: "Contact", href: "#contact" },
+  { name: "Home", href: "hero" },
+  { name: "About", href: "about" },
+  { name: "Doctor", href: "doctor" },
+  { name: "Services", href: "services" },
+  { name: "Equipment", href: "equipment" },
+  { name: "Results", href: "results" },
+  { name: "Gallery", href: "gallery" },
+  { name: "Contact", href: "contact" },
 ];
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (href: string) => {
+  const scrollToSection = (id: string) => {
     setMobileMenuOpen(false);
-    const element = document.querySelector(href);
+    const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-        isScrolled
-          ? "bg-background/80 backdrop-blur-md border-b border-border shadow-sm py-2"
-          : "bg-transparent py-4"
-      }`}
-    >
-      <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
-        <a href="#home" onClick={(e) => { e.preventDefault(); scrollToSection("#home"); }} className="flex items-center gap-3">
-          <img src={logoImg} alt="CosmoVeda Logo" className="w-10 h-10 md:w-12 md:h-12 rounded-full object-contain bg-white" />
-          <span className="font-serif font-semibold text-lg md:text-xl text-foreground hidden sm:block">CosmoVeda</span>
-        </a>
+    <>
+      <nav 
+        className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${
+          scrolled ? "bg-white/80 backdrop-blur-md shadow-sm py-3" : "bg-transparent py-5"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+          <div className="flex items-center cursor-pointer" onClick={() => scrollToSection("hero")}>
+            <img src={logoImg} alt="CosmoVeda Logo" className="max-h-12 w-auto object-contain rounded-full" />
+            <span className="ml-2 font-display font-semibold text-xl text-foreground">CosmoVeda</span>
+          </div>
 
-        <div className="hidden lg:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={(e) => { e.preventDefault(); scrollToSection(link.href); }}
-              className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
+          <div className="hidden lg:flex items-center gap-6">
+            {navLinks.map((link) => (
+              <button 
+                key={link.name}
+                onClick={() => scrollToSection(link.href)}
+                className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
+                data-testid={`nav-link-${link.name.toLowerCase()}`}
+              >
+                {link.name}
+              </button>
+            ))}
+            <button 
+              onClick={() => scrollToSection("appointment")}
+              className="rounded-full bg-gradient-to-r from-[#F8C8C0] to-[#E8A0BF] text-white px-5 py-2 text-sm font-semibold hover:shadow-md transition-shadow"
+              data-testid="nav-btn-book"
             >
-              {link.name}
-            </a>
-          ))}
-        </div>
+              Book Appointment
+            </button>
+          </div>
 
-        <div className="hidden lg:block">
-          <Button 
-            onClick={() => scrollToSection("#appointment")}
-            className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white rounded-full px-6 shadow-[0_0_15px_rgba(248,200,192,0.5)] border-0"
-          >
-            Book Appointment
-          </Button>
+          <div className="lg:hidden">
+            <button 
+              onClick={() => setMobileMenuOpen(true)}
+              className="p-2 text-foreground"
+              data-testid="btn-mobile-menu"
+            >
+              <Menu size={24} />
+            </button>
+          </div>
         </div>
-
-        <button
-          className="lg:hidden text-foreground p-2"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? <X /> : <Menu />}
-        </button>
-      </div>
+      </nav>
 
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-background/95 backdrop-blur-xl border-b border-border overflow-hidden"
+          <motion.div 
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "tween", duration: 0.3 }}
+            className="fixed inset-0 z-50 bg-white"
           >
-            <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={(e) => { e.preventDefault(); scrollToSection(link.href); }}
-                  className="text-base font-medium text-foreground py-2 border-b border-border/50"
+            <div className="flex flex-col h-full w-full overflow-hidden p-6">
+              <div className="flex justify-between items-center mb-8">
+                <span className="font-display font-semibold text-xl">CosmoVeda</span>
+                <button onClick={() => setMobileMenuOpen(false)} className="p-2">
+                  <X size={24} />
+                </button>
+              </div>
+              <div className="flex flex-col gap-6">
+                {navLinks.map((link) => (
+                  <button 
+                    key={link.name}
+                    onClick={() => scrollToSection(link.href)}
+                    className="text-lg font-medium text-left"
+                  >
+                    {link.name}
+                  </button>
+                ))}
+                <button 
+                  onClick={() => scrollToSection("appointment")}
+                  className="rounded-full bg-gradient-to-r from-[#F8C8C0] to-[#E8A0BF] text-white px-5 py-3 text-center font-semibold mt-4"
                 >
-                  {link.name}
-                </a>
-              ))}
-              <Button 
-                onClick={() => scrollToSection("#appointment")}
-                className="bg-gradient-to-r from-primary to-secondary text-white rounded-full mt-4 w-full"
-              >
-                Book Appointment
-              </Button>
+                  Book Appointment
+                </button>
+              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </>
   );
 }

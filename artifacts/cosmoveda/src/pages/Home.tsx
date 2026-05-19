@@ -1,3 +1,5 @@
+import LoadingScreen from "@/components/LoadingScreen";
+import ScrollProgress from "@/components/ScrollProgress";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import AboutClinic from "@/components/AboutClinic";
@@ -12,19 +14,19 @@ import FAQ from "@/components/FAQ";
 import AppointmentForm from "@/components/AppointmentForm";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import LoadingScreen from "@/components/LoadingScreen";
-import ScrollProgress from "@/components/ScrollProgress";
 import FloatingButtons from "@/components/FloatingButtons";
-import ParticleField from "@/components/ParticleField";
+import { useState } from "react";
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+  
+  if (loading) return <LoadingScreen onComplete={() => setLoading(false)} />;
+  
   return (
-    <div className="min-h-screen bg-background font-sans selection:bg-primary/30 selection:text-foreground relative">
-      <ParticleField />
-      <LoadingScreen />
+    <div className="w-full overflow-x-hidden">
       <ScrollProgress />
       <Navbar />
-      <main className="relative z-10">
+      <main>
         <Hero />
         <AboutClinic />
         <AboutDoctor />

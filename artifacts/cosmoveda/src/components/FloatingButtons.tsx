@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
-import { MessageCircle, ArrowUp } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Phone, ChevronUp, MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function FloatingButtons() {
-  const [showTop, setShowTop] = useState(false);
+  const [showBackTop, setShowBackTop] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowTop(window.scrollY > 500);
+      setShowBackTop(window.scrollY > 400);
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -18,32 +19,48 @@ export default function FloatingButtons() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 flex flex-col gap-4 z-40">
-      <AnimatePresence>
-        {showTop && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.5, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.5, y: 20 }}
-            onClick={scrollToTop}
-            className="w-12 h-12 rounded-full bg-background/80 backdrop-blur-md border border-border shadow-lg flex items-center justify-center text-foreground hover:bg-muted transition-colors"
-            data-testid="btn-back-to-top"
-          >
-            <ArrowUp className="w-5 h-5" />
-          </motion.button>
-        )}
-      </AnimatePresence>
-      <motion.a
+    <>
+      {/* Call Button - Bottom Left */}
+      <a
+        href="tel:+919860618850"
+        className="fixed bottom-6 left-6 z-50 w-14 h-14 rounded-full bg-[#F8C8C0] shadow-xl flex items-center justify-center hover:bg-[#FAD7D0] transition-colors"
+        data-testid="button-call"
+      >
+        <Phone color="#3A2D2D" size={24} />
+      </a>
+
+      {/* WhatsApp Button - Bottom Right */}
+      <a
         href="https://wa.me/919860618850"
         target="_blank"
         rel="noopener noreferrer"
-        className="w-14 h-14 rounded-full bg-[#25D366] text-white shadow-xl flex items-center justify-center hover:scale-110 transition-transform"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        data-testid="btn-whatsapp"
+        className="fixed bottom-6 right-6 z-50"
+        data-testid="button-whatsapp"
       >
-        <MessageCircle className="w-7 h-7" />
-      </motion.a>
-    </div>
+        <motion.div
+          animate={{ scale: [1, 1.1, 1] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="w-14 h-14 rounded-full bg-[#25D366] shadow-xl flex items-center justify-center"
+        >
+          <MessageCircle color="white" size={24} />
+        </motion.div>
+      </a>
+
+      {/* Back to Top Button - Above WhatsApp */}
+      <AnimatePresence>
+        {showBackTop && (
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            onClick={scrollToTop}
+            className="fixed bottom-24 right-6 z-50 w-12 h-12 rounded-full bg-[#D4A373] shadow-xl flex items-center justify-center hover:bg-[#b88c5d] transition-colors"
+            data-testid="button-back-to-top"
+          >
+            <ChevronUp color="white" size={20} />
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
