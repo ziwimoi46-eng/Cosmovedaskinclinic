@@ -1,6 +1,5 @@
 {
-  "installCommand": "pnpm install",
-  "buildCommand": "pnpm --filter @workspace/cosmoveda run build",
-  "outputDirectory": "artifacts/cosmoveda/dist/public",
+  "framework": null,
+  "outputDirectory": ".",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
