@@ -6,7 +6,6 @@ import AboutClinic from "@/components/AboutClinic";
 import AboutDoctor from "@/components/AboutDoctor";
 import Services from "@/components/Services";
 import Equipment from "@/components/Equipment";
-import BeforeAfter from "@/components/BeforeAfter";
 import Gallery from "@/components/Gallery";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import Testimonials from "@/components/Testimonials";
@@ -32,7 +31,6 @@ export default function Home() {
         <AboutDoctor />
         <Services />
         <Equipment />
-        <BeforeAfter />
         <Gallery />
         <WhyChooseUs />
         <Testimonials />
