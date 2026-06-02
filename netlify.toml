@@ -1,0 +1,8 @@
+[build]
+  command   = "pnpm --filter @workspace/cosmoveda run build"
+  publish   = "artifacts/cosmoveda/dist/public"
+
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
